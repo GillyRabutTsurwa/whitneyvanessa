@@ -1,0 +1,11 @@
+{
+	"root": true,
+	"project": {
+		"name": "gilbertrabuttsurwa",
+		"basePath": "/"
+	},
+	"api": {
+		"projectId": "g014cs9v",
+		"dataset": "production"
+	}
+}
