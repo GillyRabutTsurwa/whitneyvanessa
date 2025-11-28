@@ -29,27 +29,6 @@ export default defineType({
 
   fields: [
     defineField({
-      name: "postGenre",
-      title: "Post Genre",
-      type: "string",
-      group: "main",
-      validation: (rule: StringRule) => rule.required(),
-      options: {
-        list: [
-          {
-            title: "Personal",
-            value: "personal",
-          },
-          {
-            title: "Tech / Professional",
-            value: "tech",
-          },
-        ],
-        layout: "radio",
-        direction: "horizontal",
-      },
-    }),
-    defineField({
       name: "title",
       title: "Title",
       type: "string",
