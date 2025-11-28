@@ -51,9 +51,9 @@ export default defineType({
       group: "main",
       to: { type: "author" },
       // NEWPASS: works perfectly. quand je fais un nouveau document, il aura une valeur de defaut d'auteur (qui sera moi, bien-sûr)
-      initialValue: {
-        _ref: "9e5346d6-6fea-4d06-a2db-07a1a74468fb",
-      },
+      // initialValue: {
+      //   _ref: "9e5346d6-6fea-4d06-a2db-07a1a74468fb",
+      // },
     }),
     defineField({
       name: "publishedAt",
