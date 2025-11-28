@@ -6,10 +6,13 @@
     "scripts": {
         "dev": "npm-run-all --parallel dev:*",
         "build": "npm-run-all --parallel build:*",
-        "dev:site": "npm run dev-https --prefix=site",
+        "deploy": "npm-run-all --parallel deploy:*",
+        "dev:site": "npm run dev --prefix=site",
         "dev:studio": "npm run dev --prefix=content",
         "build:site": "npm run build --prefix=site",
-        "build:studio": "npm run build --prefix=studio",
+        "build:studio": "npm run build --prefix=content",
+        "deploy:site": "npm run deploy --prefix=site",
+        "deploy:studio": "npm run deploy --prefix=content",
         "release": "dotenv release-it --"
     },
     "repository": {
