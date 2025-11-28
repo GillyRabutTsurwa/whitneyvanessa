@@ -1,0 +1,99 @@
+{
+    "name": "whitneyvanessa",
+    "version": "1.0.0",
+    "description": "whitneyvanessa project: nuxt app & sanity cms",
+    "main": "index.js",
+    "scripts": {
+        "dev": "npm-run-all --parallel dev:*",
+        "build": "npm-run-all --parallel build:*",
+        "dev:site": "npm run dev-https --prefix=site",
+        "dev:studio": "npm run dev --prefix=content",
+        "build:site": "npm run build --prefix=site",
+        "build:studio": "npm run build --prefix=studio",
+        "release": "dotenv release-it --"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/GillyRabutTsurwa/whitneyvanessa.git"
+    },
+    "keywords": [
+        "cms",
+        "app",
+        "nuxt",
+        "sanity",
+        "development",
+        "content-management"
+    ],
+    "author": "Gilbert Rabut Tsurwa",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/GillyRabutTsurwa/whitneyvanessa/issues"
+    },
+    "homepage": "https://github.com/GillyRabutTsurwa/whitneyvanessa#readme",
+    "devDependencies": {
+        "@release-it/conventional-changelog": "^10.0.2",
+        "@types/node": "^24.10.1",
+        "dotenv-cli": "^11.0.0",
+        "npm-run-all": "^4.1.5",
+        "release-it": "^19.0.6"
+    },
+    "release-it": {
+        "git": {
+            "commitMessage": "chore: release v${version}"
+        },
+        "github": {
+            "release": true
+        },
+        "npm": {
+            "publish": false
+        },
+        "plugins": {
+            "@release-it/conventional-changelog": {
+                "infile": "CHANGELOG.md",
+                "preset": {
+                    "name": "conventionalcommits",
+                    "types": [
+                        {
+                            "type": "feat",
+                            "section": "Features"
+                        },
+                        {
+                            "type": "fix",
+                            "section": "Bug Fixes"
+                        },
+                        {
+                            "type": "docs",
+                            "section": "Documentation"
+                        },
+                        {
+                            "type": "style",
+                            "section": "Code Style",
+                            "hidden": true
+                        },
+                        {
+                            "type": "refactor",
+                            "section": "Refactoring"
+                        },
+                        {
+                            "type": "perfomance",
+                            "section": "Performance Improvements"
+                        },
+                        {
+                            "type": "test",
+                            "section": "Tests",
+                            "hidden": true
+                        },
+                        {
+                            "type": "chore",
+                            "section": "Chores",
+                            "hidden": true
+                        }
+                    ]
+                }
+            }
+        },
+        "hooks": {
+            "after:bump": "tsx scripts/update-workspace-versions.ts"
+        }
+    }
+}
