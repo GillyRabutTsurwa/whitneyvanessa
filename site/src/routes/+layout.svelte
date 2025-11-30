@@ -1,5 +1,8 @@
-<!-- <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+<script lang="ts">
+	import favicon from "$lib/assets/favicon.svg";
+	import "@/lib/assets/sass/main.scss";
+	import Navigation from "@/lib/components/Navigation.svelte";
+	import Footer from "@/lib/components/Footer.svelte";
 
 	let { children } = $props();
 </script>
@@ -8,32 +11,11 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()} -->
-
-<script>
-	import "@/lib/assets/sass/main.scss";
-	import Navigation from "@/lib/components/Navigation.svelte";
-	//NEW: interesting
-	// thanks to this new found data...
-	// i now know to fetch route data in svelte
-	// using it to render Navigation based on route
-	// if it's on the single post route, hide it
-	// will decide if i want to hide it or show it
-	// but i like that i know how to do it
-	import { page } from "$app/stores";
-	export let data;
-	console.log(data);
-	console.log($page.route);
-	// console.log($page.url);
-</script>
-
-<!-- j'utilise le moyen ancien pour l'instant -->
-{#if $page.route.id !== "/posts/[slug]"}
-	<Navigation />
-{/if}
+<Navigation />
 <div class="app">
-	<slot />
+	{@render children()}
 </div>
+<Footer />
 
 <style lang="scss">
 	@use "../lib/assets/sass/abstracts/" as abstracts;
@@ -50,8 +32,6 @@
 		flex-direction: column;
 		min-height: 100vh;
 		width: 100%;
-		/* height: 100%; */
-		// background: linear-gradient(to right, #aa0000 0%, #aa0000 50%, abstracts.$kibichi 50%, abstracts.$kibichi 100%);
 		background: linear-gradient(to right, var(--left-background-colour) 0%, var(--left-background-colour) 70%, var(--right-background-colour) 70%, var(--right-background-colour) 100%);
 	}
 
