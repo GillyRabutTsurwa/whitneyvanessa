@@ -25,7 +25,7 @@
 		<h1 class="blog-content__title">{post.title}</h1>
 		<h3 class="blog-content__author">
 			<span>By: </span>
-			<a href={`/authours/${post.author.slug.current}`}>
+			<a href="#">
 				<span>{post.author.name}</span>
 			</a>
 		</h3>

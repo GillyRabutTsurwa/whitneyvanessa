@@ -34,16 +34,16 @@
 	<ul class="links-footer__follow">
 		<h4 class="links-footer__subtitle">Links</h4>
 		<li class="links-footer--item">
-			<a href="/blog">Blog</a>
+			<a href="/posts">Blog</a>
 		</li>
 		<li class="links-footer--item">
-			<a href="/blog/uncensored">Uncensored</a>
+			<a href="#">Post For Members</a>
 		</li>
 		<li class="links-footer--item">
-			<a href="/blog/authours/gilbert-rabut-tsurwa" target="_blank">About Me</a>
+			<a href="#" target="_blank">About Me</a>
 		</li>
 		<li class="links-footer--item">
-			<a href="/projects">Projects</a>
+			<a href="#">Projects</a>
 		</li>
 	</ul>
 	<ul class="links-footer__socials">
