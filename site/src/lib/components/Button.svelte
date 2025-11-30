@@ -9,7 +9,6 @@
 
 	$: backgroundColor = isHovered ? colourSecondary : colourPrimary;
 	$: color = isHovered ? colourPrimary : colourSecondary;
-	$: console.log(isHovered);
 </script>
 
 {#if isLink}
