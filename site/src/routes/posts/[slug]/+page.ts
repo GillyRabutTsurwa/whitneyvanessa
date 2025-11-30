@@ -1,19 +1,11 @@
 import { error } from "@sveltejs/kit";
-import { client } from "@/sanity.client"; //NOTE: Change this
-import groq from "groq";
+import type { PageLoad } from "./$types";
+import { useFetchPosts } from "@/lib/helpers/useFetchPosts";
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
-    const query = groq`*[_type == "post" && slug.current == "${params.slug}"] {
-    ...,
-    authour->
-  }`;
-    const post: object[] = await client.fetch(query); //NOTE: sanity data is weird it's an array with one object inside instead of the object outright
-    return {
-        post: post[0],
-        test: params.slug,
-    };
-    // }
+const { fetchPost } = useFetchPosts();
 
-    throw error(404, "Not found");
-}
+export const load: PageLoad = async ({ params: { slug } }) => {
+	const post = await fetchPost(slug);
+	if (!post) error(404, "post is not found");
+	return post;
+};
