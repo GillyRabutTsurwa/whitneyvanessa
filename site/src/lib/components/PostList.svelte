@@ -1,72 +1,14 @@
 <script lang="ts">
 	import Button from "./Button.svelte";
 	import { onMount } from "svelte";
-	import { useFetchPosts } from "../helpers/useFetchPosts";
 	import { useFormatDate } from "@/lib/helpers/useFormatDate";
 	import { useSanityImage } from "@/lib/helpers/useSanityImage";
 
-	const { fetchPosts } = useFetchPosts();
 	const { formatDate } = useFormatDate();
 	const { urlFor } = useSanityImage();
 
-	const postsPromesse = fetchPosts();
-	// const textColour = {};
-
-	let dynamicColourOne: string;
-	let dynamicColourTwo: string;
-
-	// NOTE: attempting to refactor colorthief code.
-	const fetchElementColours = (element: string) => {
-		const body = document.querySelector(element) as HTMLDivElement;
-		const computedStyle = getComputedStyle(body);
-		const leftBgColour = computedStyle.getPropertyValue("--left-background-colour");
-		const rightBgColour = computedStyle.getPropertyValue("--right-background-colour");
-
-		return {
-			leftBgColour: leftBgColour,
-			rightBgColour: rightBgColour
-		};
-	};
-
-	// NOTE: attempting to refactor colorthief code.
-	const getContrastColor = (leftBackgroundColour: any, rightBackgroundColour: any) => {
-		const leftRgb = leftBackgroundColour.match(/\d+/g).map(Number);
-		const rightRgb = rightBackgroundColour.match(/\d+/g).map(Number);
-		const leftBrightness = (leftRgb[0] * 299 + leftRgb[1] * 587 + leftRgb[2] * 114) / 1000;
-		const rightBrightness = (rightRgb[0] * 299 + rightRgb[1] * 587 + rightRgb[2] * 114) / 1000;
-
-		return {
-			colourOne: leftBrightness > rightBrightness ? "rgb(23, 23, 23)" : "rgb(222, 222, 222)",
-			colourTwo: leftBrightness < rightBrightness ? "rgb(23, 23, 23)" : "rgb(222, 222, 222)"
-		};
-	};
-	onMount(() => {
-		const elementColours = {
-			left: fetchElementColours(".body-tings").leftBgColour,
-			right: fetchElementColours(".body-tings").rightBgColour
-		};
-
-		const textColour = {
-			primaryColour: getContrastColor(elementColours.left, elementColours.right).colourOne,
-			secondaryColour: getContrastColor(elementColours.left, elementColours.right).colourTwo
-		};
-
-		const mediaQueryList = window.matchMedia("(max-width: 1023px)");
-		console.log(mediaQueryList.matches);
-		// dynamicColour = mediaQueryList.matches ? textColour.secondaryColour : textColour.primaryColour;
-		if (mediaQueryList.matches) {
-			dynamicColourOne = textColour.secondaryColour;
-			dynamicColourTwo = textColour.primaryColour;
-		} else {
-			dynamicColourOne = textColour.primaryColour;
-			dynamicColourTwo = textColour.secondaryColour;
-		}
-		console.log(dynamicColourOne);
-		console.log(dynamicColourTwo);
-	});
-
-	export let posts: object[];
-	let snippetLength = 300; // NOTE: will soon be computed value
+	let { posts } = $props();
+	let snippetLength = 300;
 
 	function getSnippet(text: string) {
 		return text.slice(0, snippetLength) + "...";
@@ -74,27 +16,23 @@
 </script>
 
 <div>
-	<h2 style:color={dynamicColourOne} style="text-align: center; font-size: 6rem; margin: 3.5rem 0;">Posts</h2>
-	{#await postsPromesse}
-		Fetching Posts
-	{:then posts}
-		<section class="picture-category">
-			{#each posts as currentPost, index}
-				<div class="picture-category__caption blog">
-					<div class="picture-category__picture">
-						<img src={urlFor(currentPost.mainImage)} alt="" />
-					</div>
-
-					<h3 class="picture-category__caption--title" style:color={dynamicColourOne}>{currentPost.title}</h3>
-					<h5 style="font-weight: 500;" style:color={dynamicColourOne}>{formatDate(currentPost.publishedAt)}</h5>
-					<div class="picture-category__caption--paragraph" style:color={dynamicColourOne}>
-						<p>{getSnippet(currentPost.excerpt)}</p>
-					</div>
-					<Button isLink path={`/posts/${currentPost.slug.current}`} colourPrimary={dynamicColourOne} colourSecondary={dynamicColourTwo} />
+	<h2 style="text-align: center; font-size: 6rem; margin: 3.5rem 0; color: #fefefe">Posts</h2>
+	<section class="picture-category">
+		{#each posts as currentPost, index}
+			<div class="picture-category__caption blog">
+				<div class="picture-category__picture">
+					<img src={urlFor(currentPost.mainImage)} alt="" />
 				</div>
-			{/each}
-		</section>
-	{/await}
+
+				<h3 class="picture-category__caption--title">{currentPost.title}</h3>
+				<h5 class="picture-category__caption--published" style="font-weight: 500;">{formatDate(currentPost.publishedAt)}</h5>
+				<div class="picture-category__caption--paragraph">
+					<p>{getSnippet(currentPost.excerpt)}</p>
+				</div>
+				<Button isLink path={`/posts/${currentPost.slug.current}`} colourPrimary="#FEFEFE" colourSecondary="#171717" />
+			</div>
+		{/each}
+	</section>
 </div>
 
 <style lang="scss">
@@ -106,11 +44,7 @@
 		padding: 5rem;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		// grid-template-columns: 1fr; will be great for responsiveness
-		// -moz-gap: 7rem;
 		gap: 8rem 7rem;
-		// grid-template-rows: repeat(2, -webkit-min-content);
-		// grid-template-rows: repeat(2, min-content);
 
 		@include abstracts.breakpoint(1023) {
 			grid-template-columns: 1fr;
@@ -135,7 +69,6 @@
 				object-fit: cover;
 			}
 		}
-
 		&__category {
 			display: flex;
 			flex-direction: column;
@@ -169,11 +102,6 @@
 		}
 
 		&__caption {
-			// display: flex;
-			// flex-direction: column;
-			// justify-content: space-between;
-			// // align-items: flex-start;
-			// align-items: flex-start;
 			display: grid;
 			grid-template-columns: 1fr;
 			grid-template-rows: 35rem repeat(4, -webkit-min-content);
@@ -181,6 +109,7 @@
 			-moz-row-gap: 1.25rem;
 			row-gap: 1.25rem;
 			justify-items: start;
+			color: #fefefe;
 
 			@include abstracts.breakpoint(480) {
 				grid-template-rows: 20rem repeat(4, -webkit-min-content);
@@ -197,8 +126,6 @@
 
 		&__popular-post {
 			display: grid;
-			// grid-template-rows: -webkit-min-content 5rem -webkit-min-content;
-			// grid-template-rows: -webkit-min-content 50rem -webkit-min-content;
 			grid-template-rows: -webkit-min-content 20rem -webkit-min-content;
 			grid-template-rows: min-content 20rem min-content;
 
